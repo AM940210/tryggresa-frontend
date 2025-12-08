@@ -1,17 +1,17 @@
 import { useState } from "react";
 import logo from "../assets/Logo.png";
-import { Search, User, Menu, Globe2 } from "lucide-react";
+import { Search, User, Menu, X, Globe2 } from "lucide-react";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
     <header className="w-full bg-white shadow-md">
-      <nav className="max-w-6xl mx-auto flex items-center justify-between py-4 px-4">
+      <nav className="max-w-6xl mx-auto flex items-center justify-between py-2 px-4">
         
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <img src={logo} alt="Logo" className="h-14 w-auto" />
+          <img src={logo} alt="Logo" className="h-20 w-auto" />
         </div>
 
         {/* Desktop Menu */}
@@ -51,7 +51,7 @@ export default function Header() {
           className="md:hidden text-gray-700"
           onClick={() => setOpen(!open)}
         >
-          <Menu size={32} />
+          {open ? <X size={48} /> : <Menu size={48} />}
         </button>
       </nav>
 

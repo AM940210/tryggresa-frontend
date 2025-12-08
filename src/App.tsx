@@ -1,7 +1,15 @@
+import Header from "./components/Header";
+
 export default function App() {
   return (
-    <h1 className="text-4xl text-blue-600 font-bold p-4">
-      Tailwind fungerar! 🎉
-    </h1>
+    <div>
+      <Header />
+
+      <main className="p-6">
+        <h1 className="text-3xl font-bold text-blue-600">
+          Välkommen till TryggResa!
+        </h1>
+      </main>
+    </div>
   );
 }
