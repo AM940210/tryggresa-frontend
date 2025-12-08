@@ -1,0 +1,79 @@
+import { useState } from "react";
+import logo from "../assets/Logo.png";
+import { Search, User, Menu, Globe2 } from "lucide-react";
+
+export default function Header() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <header className="w-full bg-white shadow-md">
+      <nav className="max-w-6xl mx-auto flex items-center justify-between py-4 px-4">
+        
+        {/* Logo */}
+        <div className="flex items-center gap-2">
+          <img src={logo} alt="Logo" className="h-14 w-auto" />
+        </div>
+
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center gap-6 text-gray-700 font-medium">
+
+          {/* Left side menu */}
+          <ul className="flex items-center gap-6">
+            <li className="hover:text-blue-600">Mina bokningar</li>
+            <li className="hover:text-blue-600">Min profil</li>
+            <li className="hover:text-blue-600">Kundservice</li>
+          </ul>
+
+          {/* Separator */}
+          <div className="w-px h-8 bg-gray-400 mx-4"></div>
+
+          {/* Right side menu */}
+          <ul className="flex items-center gap-6">
+            <li className="flex items-center hover:text-blue-600 gap-2">
+              <Search size={18} />
+              Sök
+            </li>
+
+            <li className="flex items-center hover:text-blue-600 gap-2">
+              <User size={18} />
+              Logga in
+            </li>
+
+            <li className="flex items-center hover:text-blue-600 gap-2">
+              <Globe2 size={18} />
+              Svenska
+            </li>
+          </ul>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button 
+          className="md:hidden text-gray-700"
+          onClick={() => setOpen(!open)}
+        >
+          <Menu size={32} />
+        </button>
+      </nav>
+
+      {/* Mobile Dropdown */}
+      {open && (
+        <div className="md:hidden bg-white shadow-md border-t">
+          <ul className="flex flex-col gap-4 p-4 text-gray-700 font-medium">
+            <li className="flex items-center gap-2">
+              <Search size={18} /> Sök
+            </li>
+            <li className="flex items-center gap-2">
+              <User size={18} /> Logga in
+            </li>
+            <li className="flex items-center gap-2">Mina bokningar</li>
+            <li className="flex items-center gap-2">Min profil</li>
+            <li className="flex items-center gap-2">Kundservice</li>
+            <li className="flex items-center gap-2">
+              <Globe2 size={18} /> Svenska
+            </li>
+          </ul>
+        </div>
+      )}
+    </header>
+  );
+}
