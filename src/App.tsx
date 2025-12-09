@@ -10,7 +10,6 @@ export default function App() {
       <LandingPage />
     </div>
     <div>
-      <Header />
 
       <main className="p-6">
         <h1 className="text-3xl font-bold text-blue-600">
