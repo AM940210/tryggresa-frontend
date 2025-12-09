@@ -1,17 +1,17 @@
 import { useState } from "react";
 import logo from "../assets/Logo.png";
-import { Search, User, Menu, Globe2 } from "lucide-react";
+import { Home, Search, User, Menu, X, Globe2, Headphones } from "lucide-react";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
     <header className="w-full bg-white shadow-md">
-      <nav className="max-w-6xl mx-auto flex items-center justify-between py-4 px-4">
+      <nav className="max-w-6xl mx-auto flex items-center justify-between py-2 px-4">
         
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <img src={logo} alt="Logo" className="h-14 w-auto" />
+          <img src={logo} alt="Logo" className="h-20 w-auto" />
         </div>
 
         {/* Desktop Menu */}
@@ -51,25 +51,28 @@ export default function Header() {
           className="md:hidden text-gray-700"
           onClick={() => setOpen(!open)}
         >
-          <Menu size={32} />
+          {open ? <X size={48} /> : <Menu size={48} />}
         </button>
       </nav>
 
       {/* Mobile Dropdown */}
       {open && (
         <div className="md:hidden bg-white shadow-md border-t">
-          <ul className="flex flex-col gap-4 p-4 text-gray-700 font-medium">
-            <li className="flex items-center gap-2">
-              <Search size={18} /> Sök
+          <ul className="flex flex-col gap-0.5 text-gray-700 font-medium text-2xl ">
+            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600">
+              <Home size={32} /> Hem
             </li>
-            <li className="flex items-center gap-2">
-              <User size={18} /> Logga in
+            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600">
+              <Search size={32} /> Sök
             </li>
-            <li className="flex items-center gap-2">Mina bokningar</li>
-            <li className="flex items-center gap-2">Min profil</li>
-            <li className="flex items-center gap-2">Kundservice</li>
-            <li className="flex items-center gap-2">
-              <Globe2 size={18} /> Svenska
+            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600">
+              <User size={32} /> Logga in / Registera dig
+            </li>
+            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600">
+              <Headphones size={32} /> Kundservice
+            </li>
+            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 mt-2">
+              <Globe2 size={32} /> Switch to English
             </li>
           </ul>
         </div>
