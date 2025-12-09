@@ -59,19 +59,19 @@ export default function Header() {
       {open && (
         <div className="md:hidden bg-white shadow-md border-t">
           <ul className="flex flex-col gap-0.5 text-gray-700 font-medium text-2xl ">
-            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600">
+            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer">
               <Home size={32} /> Hem
             </li>
-            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600">
+            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer">
               <Search size={32} /> Sök
             </li>
-            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600">
+            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer">
               <User size={32} /> Logga in / Registera dig
             </li>
-            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600">
+            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer">
               <Headphones size={32} /> Kundservice
             </li>
-            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 mt-2">
+            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer mt-2">
               <Globe2 size={32} /> Switch to English
             </li>
           </ul>
