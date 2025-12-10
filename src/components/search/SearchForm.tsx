@@ -65,6 +65,36 @@ export default function SearchForm() {
                     </div>
                 </div>
 
+                {/* Extra fält visas bara om Tur & retur är valt */}
+                {tripType === "return" && (
+                    <>
+                        {/* retur-datum */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-800 mb-1">
+                                Returdatum
+                            </label>
+                            <input 
+                                type="date"
+                                className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+
+                        {/* Retur-tid */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-800 mb-1">
+                                Tid
+                            </label>
+                            <div className="relative">
+                                <Clock className="absolute left-2 top-3.5 text-gray-800" size={18} />
+                                <input 
+                                    type="time"
+                                    className="w-full border border-gray-300 rounded-lg p-2 pl-12 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                        </div>
+                    </>
+                )}
+
                 {/* Antal personer */}
                 <div>
                     <label className="block text-sm font-medium text-gray-800 mb-1">
@@ -82,6 +112,8 @@ export default function SearchForm() {
                         </select>
                     </div>
                 </div>
+
+                
 
                 {/* Rullstol */}
                 <div className="flex items-center gap-3 mt-6">
