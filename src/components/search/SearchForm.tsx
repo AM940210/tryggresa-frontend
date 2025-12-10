@@ -1,13 +1,42 @@
+import { useState } from "react";
 import { Search, Clock, Users, Accessibility } from "lucide-react";
 import AddressInput from "./AddressInput";
 
 export default function SearchForm() {
+    const [tripType, setTripType] = useState<"oneway" | "return">("oneway");
     return (
         <div className="max-w-5xl mx-auto mt-4 mb-4 p-6 bg-gray-200 shadow-md">
 
             <h2 className="text-2xl font-bold text-gray-800 mb-6">
                 Sök din resa
             </h2>
+
+            {/* Tur & reture / Enkel resa */}
+            <div className="flex items-center gap-4 mb-4">
+                <label className="flex items-center gap-2 cursor-pointer">
+                    <input 
+                        type="radio" 
+                        name="tripType"
+                        value="oneway" 
+                        checked={tripType === "oneway"}
+                        onChange={() => setTripType("oneway")} 
+                        className="w-4 h-4" 
+                    />
+                    Enkel resa
+                </label>
+
+                <label className="flex items-center gap-2 cursor-pointer">
+                    <input 
+                        type="radio" 
+                        name="tripType"
+                        value="return"
+                        checked={tripType === "return"}
+                        onChange={() => setTripType("return")} 
+                        className="w-4 h-4"
+                    />
+                    Tur & retur
+                </label>
+            </div>
 
             <form className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
