@@ -1,8 +1,9 @@
 import { Search, Clock, Users, Accessibility } from "lucide-react";
+import AddressInput from "./AddressInput";
 
 export default function SearchForm() {
     return (
-        <div className="max-w-4xl mx-auto mt-4 p-6 bg-gray-200 shadow-md">
+        <div className="max-w-5xl mx-auto mt-4 mb-4 p-6 bg-gray-200 shadow-md">
 
             <h2 className="text-2xl font-bold text-gray-800 mb-6">
                 Sök din resa
@@ -43,7 +44,7 @@ export default function SearchForm() {
                     <div className="relative">
                         <Users className="absolute left-2 top-3.5 text-gray-800" size={18} />
                         <select 
-                            className="w-full border border-gray-300 rounded-lg p-2 pl-9 focus:outline-none focus:rign-2 focus:ring-blue-500"
+                            className="w-full border border-gray-300 rounded-lg p-2 pl-9 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             <option value="1">1 person</option>
                             <option value="2">2 personer</option>
@@ -54,44 +55,37 @@ export default function SearchForm() {
                 </div>
 
                 {/* Rullstol */}
-                <div className="mt-4 flex items-center gap-3">
-                    <div className="relative">
-                        <input 
-                            type="checkbox" 
-                            id="Wheelchair"
-                            className="w-5 h-5 cursor-pointer accent-blue-600"
-                        />
-                        <label 
-                            htmlFor="Wheelchair" 
-                            className="flex items-center gap-2 text-gray-800"
-                        >
-                            <Accessibility size={22} className="text-gray-600" />
-                            <span>Rullstol behövs</span>
-                        </label>
-                    </div>
+                <div className="flex items-center gap-3 mt-6">
+                    <input 
+                        type="checkbox"
+                        id="wheelchair"
+                        className="w-5 h-5 cursor-pointer accent-blue-600"
+                    />
+
+                    <label 
+                        htmlFor="wheelchair"
+                        className="flex items-center gap-2 text-gray-800 leading-none"
+                    >
+                        <Accessibility size={22} className="text-gray-600" />
+                        <span>Rullstol behövs</span>
+                    </label>
                 </div>
 
                 {/* Från */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">
-                        Från
-                    </label>
-                    <input 
-                        type="text"
-                        placeholder="Startplats"
-                        className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    {/* Från */}
+                    <AddressInput 
+                        label="Från"
+                        onSelect={(data) => console.log("Från:", data)}
                     />
                 </div>
 
                 {/* Till */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">
-                        Till
-                    </label>
-                    <input 
-                        type="text"
-                        placeholder="Destination"
-                        className="w-full border border-gray-300 rounded-lg p-2 foucs:outline-none focus:ring-2 focus:ring-blue-500"
+                    {/* Till */}
+                    <AddressInput 
+                        label="Till"
+                        onSelect={(data) => console.log("Till:", data)}
                     />
                 </div>
                 
