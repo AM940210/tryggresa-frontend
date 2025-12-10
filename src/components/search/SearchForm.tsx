@@ -71,7 +71,7 @@ export default function SearchForm() {
                         {/* retur-datum */}
                         <div>
                             <label className="block text-sm font-medium text-gray-800 mb-1">
-                                Returdatum
+                                Retur datum
                             </label>
                             <input 
                                 type="date"
@@ -82,7 +82,7 @@ export default function SearchForm() {
                         {/* Retur-tid */}
                         <div>
                             <label className="block text-sm font-medium text-gray-800 mb-1">
-                                Tid
+                                Retur tid
                             </label>
                             <div className="relative">
                                 <Clock className="absolute left-2 top-3.5 text-gray-800" size={18} />
