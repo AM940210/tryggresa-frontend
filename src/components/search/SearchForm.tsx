@@ -29,7 +29,7 @@ export default function SearchForm() {
         console.log("DATA SKICKAS TILL BACKEND:", payload);
 
         try {
-            const res = await fetch("http://localhost:3000/trips", {
+            const res = await fetch("http://localhost:4000/trips", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
