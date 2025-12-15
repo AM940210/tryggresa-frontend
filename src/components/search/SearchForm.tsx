@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Search, Clock, Accessibility } from "lucide-react";
 import AddressInput from "./AddressInput";
+import { useNavigate } from "react-router-dom";
 
 export default function SearchForm() {
     const [tripType, setTripType] = useState<"oneway" | "return">("oneway");
+
+    const navigate = useNavigate();
 
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");
@@ -36,6 +39,12 @@ export default function SearchForm() {
             });
 
             const data = await res.json();
+
+            //Skicka användaren till bekräftelsesida
+            navigate("/confirmation", {
+                state: { trip: data }
+            });
+
             console.log("BACKEND SVAR:", data);
         } catch (err) {
             console.error("Fel vid fetch:", err);
