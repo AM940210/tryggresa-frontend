@@ -32,6 +32,7 @@ export default function BookningConfirmation() {
                                                 </span>
                                             )} </p>
                 <p><strong>Bokning-ID:</strong> {trip.id} </p>
+                <p><strong>Typ av resa:</strong> {trip.tripCategory} </p>
             </div>
         </div>
     );

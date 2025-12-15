@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function SearchForm() {
     const [tripType, setTripType] = useState<"oneway" | "return">("oneway");
+    const [tripCategory, setTripCategory] = useState("")
 
     const navigate = useNavigate();
 
@@ -26,7 +27,8 @@ export default function SearchForm() {
             fromAddress,
             toAddress,
             people,
-            wheelchair
+            wheelchair,
+            tripCategory
         };
 
         console.log("DATA SKICKAS TILL BACKEND:", payload);
@@ -37,6 +39,13 @@ export default function SearchForm() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
             });
+
+            if (!res.ok) {
+                const errorText = await res.text();
+                console.error("SERVER ERROR:", errorText);
+                alert("Backend-servern skickade ett fel.\nSe konsolen för detaljer.")
+                return;
+            }
 
             const data = await res.json();
 
@@ -187,6 +196,23 @@ export default function SearchForm() {
                     label="Till"
                     onSelect={(data) => setToAddress(data.address)}
                 />
+
+                {/** Typ av resa */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-800 mb-1">
+                        Typ av resa
+                    </label>
+
+                    <select 
+                        value={tripCategory}
+                        onChange={(e) => setTripCategory(e.target.value)}
+                        className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                        <option value="">Välj typ av resan...</option>
+                        <option value="Sjukresa">Sjukresa</option>
+                        <option value="Färdtjänst">Färdtjänst</option>
+                    </select>
+                </div>
 
                 {/* Sök-knapp */}
                 <div className="col-span-2 mt-6">
