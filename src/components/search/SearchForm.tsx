@@ -32,48 +32,37 @@ export default function SearchForm() {
             tripCategory
         };
 
-        console.log("DATA SKICKAS TILL BACKEND:", payload);
+        const loadingToast = toast.loading("Söker resa...\nVänligen vänta...");
 
-        // Startar taost
-        const laodingToast = toast.loading(
-            <div className="text-center">
-                <p className="font-semibold">Söker resa...</p>
-                <p className="text-sm opacity-80 mt-1">Vänligen vänta ett ögonblick</p>
-            </div>
-        )
 
         try {
-            const res = await fetch("http://localhost:4000/trips", {
+            const res = await fetch("http://localhost:4000/trips/available-times", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
             });
 
             if (!res.ok) {
-                const errorText = await res.text();
-                console.error("SERVER ERROR:", errorText);
-                alert("Backend-servern skickade ett fel.\nSe konsolen för detaljer.")
-                return;
+                toast.dismiss(loadingToast);
+                return toast.error("Kunde inte hämta tider.")
             }
 
             const data = await res.json();
 
-            // Vänta 1.2 sek innan success visas och redirect sker
-            setTimeout(() => {
-                // Avslutar loading
-                toast.dismiss(laodingToast);
-                toast.success("Resa mottagen!");
-
-                //Skicka användaren till bekräftelsesida
-                navigate("/confirmation", {
-                    state: { trip: data }
-                });
-            }, 1500);
-
+            
+            toast.dismiss(loadingToast);
+                
+            // Skicka användaren till tidväljarsidan
+            navigate("/select-time", {
+                state: {
+                    payload,
+                    times: data.times
+                }
+            });
             
 
         } catch (err) {
-            toast.dismiss(laodingToast);
+            toast.dismiss(loadingToast);
             toast.error("fel: Kunde inte skicka bokningen");
             console.error("Fel vid fetch:", err);
         }

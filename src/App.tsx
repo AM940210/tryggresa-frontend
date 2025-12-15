@@ -3,6 +3,8 @@ import { Toaster } from "react-hot-toast";
 import LandingPage from "./pages/LandingPage";
 import Header from "./components/Header";
 import BookningConfirmation from "./pages/BookningConfirmation";
+import SelectTimePage from "./pages/SelectTimePage";
+
 
 export default function App() {
   return (
@@ -13,9 +15,11 @@ export default function App() {
       <Routes>
         {/* Stardsida */}
         <Route path="/" element={<LandingPage />} />
-
+        <Route path="/select-time" element={<SelectTimePage />} />
         {/* Bekräftelsesida */}
         <Route path="/confirmation" element={<BookningConfirmation />} />
+
+
       </Routes>
     </BrowserRouter>
   );
