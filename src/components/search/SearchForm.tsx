@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Search, Clock, Accessibility } from "lucide-react";
 import AddressInput from "./AddressInput";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function SearchForm() {
     const [tripType, setTripType] = useState<"oneway" | "return">("oneway");
@@ -33,6 +34,14 @@ export default function SearchForm() {
 
         console.log("DATA SKICKAS TILL BACKEND:", payload);
 
+        // Startar taost
+        const laodingToast = toast.loading(
+            <div className="text-center">
+                <p className="font-semibold">Söker resa...</p>
+                <p className="text-sm opacity-80 mt-1">Vänligen vänta ett ögonblick</p>
+            </div>
+        )
+
         try {
             const res = await fetch("http://localhost:4000/trips", {
                 method: "POST",
@@ -49,13 +58,23 @@ export default function SearchForm() {
 
             const data = await res.json();
 
-            //Skicka användaren till bekräftelsesida
-            navigate("/confirmation", {
-                state: { trip: data }
-            });
+            // Vänta 1.2 sek innan success visas och redirect sker
+            setTimeout(() => {
+                // Avslutar loading
+                toast.dismiss(laodingToast);
+                toast.success("Resa mottagen!");
 
-            console.log("BACKEND SVAR:", data);
+                //Skicka användaren till bekräftelsesida
+                navigate("/confirmation", {
+                    state: { trip: data }
+                });
+            }, 1500);
+
+            
+
         } catch (err) {
+            toast.dismiss(laodingToast);
+            toast.error("fel: Kunde inte skicka bokningen");
             console.error("Fel vid fetch:", err);
         }
     };
