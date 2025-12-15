@@ -49,7 +49,7 @@ export default function SelectTimePage() {
     };
 
     return (
-        <div className="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
+        <div className="max-w-4xl mx-auto mt-10 mb-10 p-6 bg-white shadow-md rounded-lg">
             <h1 className="text-2xl font-bold mb-4">Välj en tid</h1>
 
             <p className="font-semibold text-gray-700 mb-4">Här är tillgängliga tider för din resa:</p>
