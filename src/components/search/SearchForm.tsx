@@ -25,14 +25,17 @@ export default function SearchForm() {
         const payload = {
             date,
             time,
-            returnDate: tripType === "return" ? returnDate : null,
-            returnTime: tripType === "return" ? returnTime : null,
+            ...(tripType === "return" && {
+                returnDate,
+                returnTime,
+            }),
             fromAddress,
             toAddress,
             people,
             wheelchair,
-            tripCategory
+            tripCategory,
         };
+
 
         const loadingToast = toast.loading("Söker resa...\nVänligen vänta...");
 

@@ -28,7 +28,7 @@ export default function BookningConfirmation() {
     const { tripOut, tripReturn, message } = data;
 
     return (
-        <div className="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
+        <div className="max-w-2xl mx-auto mt-10 mb-10 p-6 bg-white shadow-lg rounded-xl">
             <h1 className="text-3xl font-bold text-green-700 mb-4"> Bokning mottagen! </h1>
             <p className="text-gray-800 mb-4">Din resa är sparad. Här är detaljerna:</p>
 
@@ -44,6 +44,7 @@ export default function BookningConfirmation() {
                 <p><strong>Rullstol:</strong> {tripOut.wheelchair ? "Ja" : "Nej"}</p>
                 <p><strong>Typ av resa:</strong> {tripOut.tripCategory} </p>
                 <p><strong>Bokning-ID:</strong> {tripOut.id} </p>
+                <p><strong>Pris:</strong> {tripOut.price} kr</p>
             </div>
 
 
@@ -60,6 +61,7 @@ export default function BookningConfirmation() {
                     <p><strong>Rullstol:</strong> {tripReturn.wheelchair ? "Ja" : "Nej"}</p>
                     <p><strong>Typ av resa:</strong> {tripReturn.tripCategory} </p>
                     <p><strong>Bokning-ID:</strong> {tripReturn.id} </p>
+                    <p><strong>Pris:</strong> {tripOut.price} kr</p>
                 </div>
             )}
 
