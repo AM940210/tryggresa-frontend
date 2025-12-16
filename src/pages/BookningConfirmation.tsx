@@ -28,9 +28,9 @@ export default function BookningConfirmation() {
     const { tripOut, tripReturn, message } = data;
 
     return (
-        <div className="max-w-2xl mx-auto mt-10 mb-10 p-6 bg-white shadow-lg rounded-xl">
-            <h1 className="text-3xl font-bold text-green-700 mb-4"> Bokning mottagen! </h1>
-            <p className="text-gray-800 mb-4">Din resa är sparad. Här är detaljerna:</p>
+        <div className="max-w-4xl mx-auto mt-10 mb-10 p-6 bg-white shadow-lg rounded-xl">
+            <h1 className="text-3xl font-bold text-green-700 mb-4"> Din resa är nu bokad! </h1>
+            <p className="text-gray-800 mb-4">Tack för att du använder vår tjänst. Vi onsker dig en trevlig resa!</p>
 
             {/** UTRESA */}
             <div className="mb-6 p-4 border rounded-lg bg-gray-50">
