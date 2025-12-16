@@ -25,6 +25,8 @@ export default function SearchForm() {
         const payload = {
             date,
             time,
+            returnDate: tripType === "return" ? returnDate : null,
+            returnTime: tripType === "return" ? returnTime : null,
             fromAddress,
             toAddress,
             people,

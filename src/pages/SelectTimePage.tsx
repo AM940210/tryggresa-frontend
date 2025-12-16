@@ -1,19 +1,32 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 function shortAddress(full: string) {
     if (!full) return "";
-    return full.split(",").slice(0, 2).join(",");
+
+    // Om adressen innehåller komma ta första delen
+    if (full.includes(",")) {
+        return full.split(",")[0].trim();
+    }
+
+    // Om inga komma finns ta de första 2-3 orden
+    const words = full.split(" ");
+
+    // ta bort postnummer
+    const cleaned = words.filter(w => !/^\d+$/.test(w));
+
+    return cleaned.slice(0, 3).join(" ");
 }
 
 export default function SelectTimePage() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const times: string[] = location.state?.times;
     const payload = location.state?.payload;
+    const outboundTimes: string[] = location.state?.times;
 
-    if (!times || !payload) {
+    if (!payload || !outboundTimes) {
         return (
             <div className="p-6 text-red-600 text-center">
                 <h2 className="text-xl font-bold">Ingen tidsdata mottagen</h2>
@@ -21,10 +34,24 @@ export default function SelectTimePage() {
         );
     }
 
-    const chooseTime = async (t: string) => {
-        const booking = { ...payload, time: t };
+    // är det tur & retur?
+    const isReturn = payload.returnDate && payload.returnTime;
 
+    // Tider användaren väljer
+    const [selectedOutbound, setSelectedOutbound] = useState<string | null>(null);
+    const [selectedReturn, setSelectedReturn] = useState<string | null>(null);
+
+    // fake retur tider
+    const returnTimes = ["13:00", "13:30", "14:00", "14:30", "15:00"];
+
+    const confirmBooking = async () => {
         const loadingToast = toast.loading("Skickar bokningen...");
+
+        const booking = {
+            ...payload,
+            time: selectedOutbound,
+            returnTimes: selectedReturn,
+        };
 
         try {
             const res = await fetch("http://localhost:4000/trips", {
@@ -38,36 +65,84 @@ export default function SelectTimePage() {
             toast.dismiss(loadingToast);
             toast.success("Bokning skickad!");
 
-            navigate("/confirmation", {
-                state: { trip: data }
-            });
-
+            navigate("/confirmation", { state: { trip: data } });
         } catch (err) {
             toast.dismiss(loadingToast);
             toast.error("Kunde inte slutföra bokningen");
         }
-    };
+    }
 
     return (
         <div className="max-w-4xl mx-auto mt-10 mb-10 p-6 bg-white shadow-md rounded-lg">
-            <h1 className="text-2xl font-bold mb-4">Välj en tid</h1>
+            <h1 className="text-2xl font-bold mb-6">Välj tid för din resa</h1>
 
-            <p className="font-semibold text-gray-700 mb-4">Här är tillgängliga tider för din resa:</p>
+            {/* UTRESA */}
+            <h2 className="text-xl font-semibold mb-3">⏱ Utresa</h2>
 
-            <div className="grid grid-cols-1 gap-4 mt-4">
-                {times.map((t) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {outboundTimes.map((t) => (
                     <button
                         key={t}
-                        onClick={() => chooseTime(t)}
-                        className="w-full text-left px-6 py-4 rounded-lg border bg-blue-600 text-white hover:bg-blue-700 transition"
+                        onClick={() => setSelectedOutbound(t)}
+                        className={`
+                            w-full text-left px-6 py-4 rounded-lg border transition
+                            ${selectedOutbound === t
+                                ? "bg-blue-700 text-white border-blue-900"
+                                : "bg-blue-600 text-white hover:bg-blue-700"}    
+                        `}
                     >
                         <p className="text-xl font-bold">Kl {t}</p>
-                        <p className="opacity-90 mt-1">
+                        <p className="opacity-90">
                             {shortAddress(payload.fromAddress)} → {shortAddress(payload.toAddress)}
                         </p>
                     </button>
                 ))}
             </div>
+
+            {/** Returresa - visas bara vid tur & retur */}
+            {isReturn && (
+                <div className="mt-10">
+                    <h2 className="text-xl font-semibold mb-3">↩️ Returresa</h2>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {returnTimes.map((t) => (
+                            <button
+                                key={t}
+                                onClick={() => setSelectedReturn(t)}
+                                className={`
+                                    w-full text-left px-6 py-4 rounded-lg border transition
+                                    ${selectedReturn === t
+                                        ? "bg-green-700 text-white border-green-900"
+                                        : "bg-green-600 text-white hover:bg-green-700"
+                                    }    
+                                `}
+                            >
+                                <p className="text-xl font-bold">kl {t}</p>
+                                <p className="opacity-90">
+                                    {shortAddress(payload.toAddress)} → {shortAddress(payload.fromAddress)}
+                                </p>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/** BEKRÄFTA KNAPP */}
+            <button
+                disabled={
+                    !selectedOutbound ||
+                    (isReturn && !selectedReturn)
+                }
+                onClick={confirmBooking}
+                className={`
+                    w-full mt-10 py-4 rounded-lg text-xl font-bold transition
+                    ${(!selectedOutbound || (isReturn && !selectedReturn))
+                        ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                        : "bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"}    
+                `}
+            >
+                BEKRÄFTA BOKNING
+            </button>
         </div>
     );
 }
