@@ -22,6 +22,37 @@ export default function SearchForm() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        // Validering sök form        
+        if (!date) {
+            return toast.error("Välj datum");
+        }
+
+        if (!time) {
+            return toast.error("välj tid");
+        }
+
+        if (!fromAddress) {
+            return toast.error("Välj från-adress");
+        }
+
+        if (!toAddress) {
+            return toast.error("Välj till-adress");
+        }
+
+        if (!tripCategory) {
+            return toast.error("Välj typ av resa");
+        }
+
+        if (tripType === "return") {
+            if (!returnDate) {
+                return toast.error("Välje returdatum");
+            }
+
+            if (!returnTime) {
+                return toast.error("Välj returid");
+            }
+        }
+
         const payload = {
             date,
             time,
