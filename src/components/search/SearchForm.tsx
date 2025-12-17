@@ -21,6 +21,8 @@ export default function SearchForm() {
     const [fromAddress, setFromAddress] = useState("");
     const [toAddress, setToAddress] = useState("");
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -54,6 +56,9 @@ export default function SearchForm() {
                 return toast.error("Välj returid", { icon: "⏰", duration: 3000 });
             }
         }
+
+        if (isSubmitting) return;
+        setIsSubmitting(true);
 
         const payload = {
             date,
@@ -111,13 +116,13 @@ export default function SearchForm() {
                     }
                 });
             }, 800);
+
         } catch (err) {
             toast.dismiss(loadingToast);
-            toast("Teknisk fel - försök igen", {
-                icon: "⚠️",
-                duration: 4000,
-            });
+            toast.error("Tekniskt fel - försök igen");
             console.error(err);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -279,7 +284,10 @@ export default function SearchForm() {
                 <div className="col-span-2 mt-6">
                     <button 
                         type="submit"
-                        className="w-full bg-blue-600 text-white py-3 rounded-lg text-xl flex items-center justify-center gap-2"
+                        disabled={isSubmitting}
+                        className={`w-full py-3 rounded-lg text-xl flex items-center justify-center gap-2
+                                ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white"}
+                        `}
                     >
                         <Search size={28} />
                         SÖK DIN RESA HÄR!
