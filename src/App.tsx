@@ -4,6 +4,7 @@ import LandingPage from "./pages/LandingPage";
 import Header from "./components/Header";
 import BookningConfirmation from "./pages/BookningConfirmation";
 import SelectTimePage from "./pages/SelectTimePage";
+import LoginPage from "./pages/LoginPage";
 
 
 export default function App() {
@@ -18,7 +19,7 @@ export default function App() {
         <Route path="/select-time" element={<SelectTimePage />} />
         {/* Bekräftelsesida */}
         <Route path="/confirmation" element={<BookningConfirmation />} />
-
+        <Route path="/login" element={<LoginPage />} />
 
       </Routes>
     </BrowserRouter>
