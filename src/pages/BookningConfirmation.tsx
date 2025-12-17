@@ -1,5 +1,6 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
+/** ===== Hjälpfunktion ===== */
 function shortAddress(full: string) {
     if (!full) return "";
 
@@ -14,23 +15,41 @@ function shortAddress(full: string) {
 
 export default function BookningConfirmation() {
     const location = useLocation();
+    const navigate = useNavigate();
+
     const data = location.state?.trip;
 
     if (!data) {
         return (
             <div className="max-w-2xl mx-auto mt-10 p-6 bg-red 100 rounded-lg">
-                <h2 className="text-xl font-bold text-red-700">Ingen bokning hittades</h2>
-                <p className="text-red-600">Gå tillbaka och fyll i formuläret igen.</p>
+                <h2 className="text-xl font-bold text-red-700">
+                    Ingen bokning hittades
+                </h2>
+                <p className="text-red-600">
+                    Gå tillbaka och fyll i formuläret igen.
+                </p>
+
+                <button
+                    onClick={() => navigate("/")}
+                    className="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-bold hover:bg-blue-700"
+                >
+                    Till startsidan
+                </button>
             </div>
         );
     }
 
-    const { tripOut, tripReturn, message } = data;
+    const { tripOut, tripReturn, message, totalPrice } = data;
 
     return (
         <div className="max-w-4xl mx-auto mt-10 mb-10 p-6 bg-white shadow-lg rounded-xl">
-            <h1 className="text-3xl font-bold text-green-700 mb-4"> Din resa är nu bokad! </h1>
-            <p className="text-gray-800 mb-4">Tack för att du använder vår tjänst. Vi onsker dig en trevlig resa!</p>
+            <h1 className="text-3xl font-bold text-green-700 mb-4"> 
+                Din resa är nu bokad! 
+            </h1>
+
+            <p className="text-gray-800 mb-4">
+                Tack för att du använder vår tjänst. Vi onsker dig en trevlig resa!
+            </p>
 
             {/** UTRESA */}
             <div className="mb-6 p-4 border rounded-lg bg-gray-50">
@@ -65,10 +84,20 @@ export default function BookningConfirmation() {
                 </div>
             )}
 
-            {/** Backend meddelande */}
+            {/** ===== TOTALPRICE ===== */}
+            <div className="mb-6 p-4 bg-gray-100 rounded-lg text-lg font-semibold">
+                Total pris: {totalPrice ?? tripOut.price} kr
+            </div>
+
+            {/** ====== Backend meddelande ===== */}
             <div className="mt-4 p-4 bg-blue-100 rounded text-blue-900 font-semibold">
                 {message}
             </div>
+
+            {/** ===== NY BOKNING ===== */}
+            <button className="mt-4 w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-bold hover:bg-blue-700">
+                Gör en ny bokning
+            </button>
         </div>
     );
 }

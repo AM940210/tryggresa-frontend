@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 export default function SearchForm() {
+    const navigate = useNavigate();
+
+
     const [tripType, setTripType] = useState<"oneway" | "return">("oneway");
     const [tripCategory, setTripCategory] = useState("")
 
-    const navigate = useNavigate();
 
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");
@@ -22,34 +24,34 @@ export default function SearchForm() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Validering sök form        
+        // ==================== Validering sök form =====================       
         if (!date) {
-            return toast.error("Välj datum");
+            return toast.error("Välj datum", { icon: "📅", duration: 3000 });
         }
 
         if (!time) {
-            return toast.error("välj tid");
+            return toast.error("välj tid", { icon: "⏰", duration: 3000 });
         }
 
         if (!fromAddress) {
-            return toast.error("Välj från-adress");
+            return toast.error("Välj från-adress", { icon: "📍", duration: 3000 });
         }
 
         if (!toAddress) {
-            return toast.error("Välj till-adress");
+            return toast.error("Välj till-adress", { icon: "📍", duration: 3000 });
         }
 
         if (!tripCategory) {
-            return toast.error("Välj typ av resa");
+            return toast.error("Välj typ av resa", { icon: "🧾", duration: 3000 });
         }
 
         if (tripType === "return") {
             if (!returnDate) {
-                return toast.error("Välje returdatum");
+                return toast.error("Välje returdatum", { icon: "📅", duration: 3000 });
             }
 
             if (!returnTime) {
-                return toast.error("Välj returid");
+                return toast.error("Välj returid", { icon: "⏰", duration: 3000 });
             }
         }
 
@@ -68,39 +70,54 @@ export default function SearchForm() {
         };
 
 
-        const loadingToast = toast.loading("Söker resa...\nVänligen vänta...");
+        const loadingToast = toast.loading(
+            "Söker resa...\nVänligen vänta ett ögonblick"
+        );
 
 
         try {
-            const res = await fetch("http://localhost:4000/trips/available-times", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
+            const res = await fetch(
+                "http://localhost:4000/trips/available-times", 
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
             });
 
             if (!res.ok) {
                 toast.dismiss(loadingToast);
-                return toast.error("Kunde inte hämta tider.")
+                return toast("Kunde inte hämta tider", {
+                    icon: "❌",
+                    duration: 4000,
+                });
             }
 
             const data = await res.json();
 
             
             toast.dismiss(loadingToast);
-                
-            // Skicka användaren till tidväljarsidan
-            navigate("/select-time", {
-                state: {
-                    payload,
-                    times: data.times
-                }
-            });
-            
 
+            toast.success("Resa hittad!\nVälj en tid nedan", {
+                icon: "✅",
+                duration: 3500 
+            });
+
+            // liten delay så användaren hinner läsa
+            setTimeout(() => {
+                navigate("/select-time", {
+                    state: {
+                        payload,
+                        times: data.times
+                    }
+                });
+            }, 800);
         } catch (err) {
             toast.dismiss(loadingToast);
-            toast.error("fel: Kunde inte skicka bokningen");
-            console.error("Fel vid fetch:", err);
+            toast("Teknisk fel - försök igen", {
+                icon: "⚠️",
+                duration: 4000,
+            });
+            console.error(err);
         }
     };
 
