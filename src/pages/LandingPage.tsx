@@ -1,3 +1,5 @@
+import SearchForm from "../components/search/SearchForm";
+
 export default function LandingPage() {
     return (
         <section className="w-full">
@@ -22,6 +24,9 @@ export default function LandingPage() {
                     className="w-full mt-4 object-contain"
                 />
             </div>
+
+            {/* SearchForm */}
+            <SearchForm />
         </section>
     );
 }

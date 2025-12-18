@@ -1,18 +1,26 @@
 import { useState } from "react";
 import logo from "../assets/Logo.png";
 import { Home, Search, User, Menu, X, Globe2, Headphones } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
 
   return (
     <header className="w-full bg-white shadow-md">
       <nav className="max-w-6xl mx-auto flex items-center justify-between py-2 px-4">
         
-        {/* Logo */}
-        <div className="flex items-center gap-2">
-          <img src={logo} alt="Logo" className="h-20 w-auto" />
-        </div>
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center gap-2"
+        >
+          <img 
+            src={logo} 
+            alt="Logo" 
+            className="h-20 w-auto cursor-pointer" />
+        </button>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-6 text-gray-700 font-medium">
