@@ -42,7 +42,10 @@ export default function Header() {
               Sök
             </li>
 
-            <li className="flex items-center hover:text-blue-600 gap-2">
+            <li
+              onClick={() => navigate("/login")}
+              className="flex items-center hover:text-blue-600 gap-2 cursor-pointer"
+            >
               <User size={18} />
               Logga in
             </li>
@@ -73,7 +76,13 @@ export default function Header() {
             <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600">
               <Search size={32} /> Sök
             </li>
-            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600">
+            <li 
+              onClick={() => {
+                navigate("/login");
+                setOpen(false);
+              }}
+              className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer"
+            >
               <User size={32} /> Logga in / Registera dig
             </li>
             <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600">
