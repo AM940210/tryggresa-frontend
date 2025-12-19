@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function RegisterForm() {
   const navigate = useNavigate();
@@ -25,11 +26,28 @@ export default function RegisterForm() {
 
     try {
       // TODO: backend register
-      console.log({ email, password });
+      const res = await fetch("http://localhost:4000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
 
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Registrering misslyckades");
+      }
+
+      // Kontot skapat - tillbaka till login
+      toast.success("Konto skapat! Logga in för att fortsätta");
       navigate("/login");
-    } catch {
-      setError("Kunde inte skapa konto");
+    } catch (err: any) {
+      setError(err.message || "Kunde inte skapa konto");
     } finally {
       setIsLoading(false);
     }
@@ -38,7 +56,17 @@ export default function RegisterForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
-        <p className="text-red-500 text-sm">{error}</p>
+        <div className="text-center space-y-2">
+          <p className="text-red-500 text-sm">{error}</p>
+
+          <button
+            type="button"
+            onClick={() => navigate("/login")}
+            className="text-blue-600 underline text-sm hover:text-blue-800"
+          >
+            Gå till logga in
+          </button>
+        </div>
       )}
 
       <div>
