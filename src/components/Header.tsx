@@ -74,7 +74,7 @@ export default function Header() {
               <Search size={32} /> Sök
             </li>
             <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600">
-              <User size={32} /> Logga in / Registera dig
+              <User size={32} /> Logga in
             </li>
             <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600">
               <Headphones size={32} /> Kundservice
