@@ -98,14 +98,14 @@ export default function Header() {
             <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600">
               <Search size={32} /> Sök
             </li>
+
             <li 
-              onClick={() => {
-                navigate("/login");
-              }}
+              onClick={() => navigate("/login")}
               className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer"
             >
               <User size={32} /> Logga in
             </li>
+
             <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer">
               <Headphones size={32} /> Kundservice
             </li>

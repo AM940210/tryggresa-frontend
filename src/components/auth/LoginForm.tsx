@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function LoginForm() {
     const [email, setEmail] = useState("");
@@ -65,9 +66,12 @@ export default function LoginForm() {
 
             <p className="text-center text-sm">
                 Har du inget konto?{" "}
-                <a href="/register" className="text-blue-600 underline">
+                <Link 
+                    to="/register"
+                    className="text-blue-600 underline hover:text-blue-800 "
+                >
                     Skapa konto
-                </a>
+                </Link>
             </p>
         </form>
     );
