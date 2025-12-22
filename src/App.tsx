@@ -6,23 +6,29 @@ import BookningConfirmation from "./pages/BookningConfirmation";
 import SelectTimePage from "./pages/SelectTimePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import MinProfilPage from "./pages/MinProfilpage";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Header />
-      <Toaster position="top-center" />
+    <AuthProvider>
+      <BrowserRouter>
+        <Header />
+        <Toaster position="top-center" />
 
-      <Routes>
-        {/* Stardsida */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/select-time" element={<SelectTimePage />} />
-        {/* Bekräftelsesida */}
-        <Route path="/confirmation" element={<BookningConfirmation />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Routes>
+          {/* Stardsida */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/select-time" element={<SelectTimePage />} />
+          {/* Bekräftelsesida */}
+          <Route path="/confirmation" element={<BookningConfirmation />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/min-profil" element={<ProtectedRoute><MinProfilPage /></ProtectedRoute>}/>
 
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }

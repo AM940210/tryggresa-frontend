@@ -1,7 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import toast from "react-hot-toast";
 
 export default function LoginForm() {
+    const navigate = useNavigate();
+    const { login } = useAuth();
+
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -16,9 +22,32 @@ export default function LoginForm() {
 
         try {
             // TODO: koppla till backend
-            console.log({ email, password });
-        } catch (err) {
-            setError("Fel e-post eller lösenord");
+            const res = await fetch("http://localhost:4000/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.message || "Fel e-post eller lösenord");
+            }
+
+            // Spara token via AuthContext
+            login(data.token);
+
+            // Redirect till startsidan
+            navigate("/");
+
+            toast.success("Du är nu inloggad");
+        } catch (err: any) {
+            setError(err.message || "Fel e-post eller lösenord");
         } finally {
             setIsLoading(false);
         }
