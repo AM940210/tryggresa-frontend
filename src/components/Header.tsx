@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import logo from "../assets/Logo.png";
-import { Home, Search, User, Menu, X, Globe2, Headphones } from "lucide-react";
+import { Home, Search, User, Menu, X, Globe2, Headphones, ClipboardList } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -37,16 +37,23 @@ export default function Header() {
 
           {/* left */}
           <ul className="flex items-center gap-6">
-            <li 
-              className="hover:text-blue-600 cursor-pointer"
-            >
-              Mina bokningar
-            </li>
-            <li 
-              className="hover:text-blue-600 cursor-pointer"
-            >
-              Min profil
-            </li>
+            {isAuthenticated && (
+              <>
+                <li
+                  onClick={() => navigate("/mina-bokningar")} 
+                  className="hover:text-blue-600 cursor-pointer"
+                >
+                  Mina bokningar
+                </li>
+                <li
+                  onClick={() => navigate("/min-profil")} 
+                  className="hover:text-blue-600 cursor-pointer"
+                >
+                  Min profil
+                </li>
+              </>
+            )}
+            
             <li 
               className="hover:text-blue-600 cursor-pointer"
             >
@@ -127,6 +134,26 @@ export default function Header() {
                 <User size={32} /> Logga in
               </li>
             )}
+
+            {isAuthenticated && (
+              <>
+                <li
+                  onClick={() => navigate("/mina-bokningar")}
+                  className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer"
+                >
+                  <ClipboardList size={32} />
+                  Mina bokningar
+                </li>
+                <li
+                  onClick={() => navigate("/min-profil")}
+                  className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer"
+                >
+                  <User size={32} />
+                  Min profil
+                </li>
+              </>
+            )}
+            
             
 
             <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer">
