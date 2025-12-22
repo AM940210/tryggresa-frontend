@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import logo from "../assets/Logo.png";
 import { Home, Search, User, Menu, X, Globe2, Headphones } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { isAuthenticated, logout } = useAuth();
 
   const [open, setOpen] = useState(false);
 
@@ -62,13 +64,24 @@ export default function Header() {
               Sök
             </li>
 
-            <li
-              onClick={() => navigate("/login")}
-              className="flex items-center hover:text-blue-600 gap-2 cursor-pointer"
-            >
-              <User size={18} />
-              Logga in
-            </li>
+            {isAuthenticated ? (
+              <li
+                onClick={logout}
+                className="flex items-center hover:text-blue-600 gap-2 cursor-pointer"
+              >
+                <User size={18} />
+                Logga ut
+              </li>
+            ) : (
+              <li
+                onClick={() => navigate("/login")}
+                className="flex items-center hover:text-blue-600 gap-2 cursor-pointer"
+              >
+                <User size={18} />
+                Logga in
+              </li>
+            )}
+            
 
             <li className="flex items-center hover:text-blue-600 gap-2 cursor-pointer">
               <Globe2 size={18} />
@@ -99,12 +112,22 @@ export default function Header() {
               <Search size={32} /> Sök
             </li>
 
-            <li 
-              onClick={() => navigate("/login")}
-              className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer"
-            >
-              <User size={32} /> Logga in
-            </li>
+            {isAuthenticated ? (
+              <li 
+                onClick={logout}
+                className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer"
+              >
+                <User size={32} /> Logga ut
+              </li>
+            ) : (
+              <li 
+                onClick={() => navigate("/login")}
+                className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer"
+              >
+                <User size={32} /> Logga in
+              </li>
+            )}
+            
 
             <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer">
               <Headphones size={32} /> Kundservice
