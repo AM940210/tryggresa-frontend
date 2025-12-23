@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
 
 
 function shortAddress(full?: string) {
@@ -19,6 +20,8 @@ function shortAddress(full?: string) {
 export default function SelectTimePage() {
     const location = useLocation();
     const navigate = useNavigate();
+
+    const { token } = useAuth();
 
     const payload = location.state?.payload;
     const outboundTimes: string[] = location.state?.times;
@@ -59,7 +62,10 @@ export default function SelectTimePage() {
         try {
             const res = await fetch("http://localhost:4000/trips", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`, 
+                },
                 body: JSON.stringify(booking),
             });
 
