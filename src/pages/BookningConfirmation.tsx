@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 
 /** ===== Hjälpfunktion ===== */
-function shortAddress(full: string) {
+function shortAddress(full?: string) {
     if (!full) return "";
 
     if (full.includes(",")) {
@@ -21,7 +21,7 @@ export default function BookningConfirmation() {
 
     if (!data) {
         return (
-            <div className="max-w-2xl mx-auto mt-10 p-6 bg-red 100 rounded-lg">
+            <div className="max-w-2xl mx-auto mt-10 p-6 bg-red-100 rounded-lg">
                 <h2 className="text-xl font-bold text-red-700">
                     Ingen bokning hittades
                 </h2>
@@ -80,7 +80,7 @@ export default function BookningConfirmation() {
                     <p><strong>Rullstol:</strong> {tripReturn.wheelchair ? "Ja" : "Nej"}</p>
                     <p><strong>Typ av resa:</strong> {tripReturn.tripCategory} </p>
                     <p><strong>Bokning-ID:</strong> {tripReturn.id} </p>
-                    <p><strong>Pris:</strong> {tripOut.price} kr</p>
+                    <p><strong>Pris:</strong> {tripReturn.price} kr</p>
                 </div>
             )}
 
@@ -95,7 +95,10 @@ export default function BookningConfirmation() {
             </div>
 
             {/** ===== NY BOKNING ===== */}
-            <button className="mt-4 w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-bold hover:bg-blue-700">
+            <button
+                onClick={() => navigate("/")} 
+                className="mt-4 w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-bold hover:bg-blue-700"
+            >
                 Gör en ny bokning
             </button>
         </div>
