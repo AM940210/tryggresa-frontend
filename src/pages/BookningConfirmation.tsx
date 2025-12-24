@@ -41,11 +41,23 @@ export default function BookningConfirmation() {
 
     const { tripOut, tripReturn, message, totalPrice } = data;
 
+    const fullName = `${tripOut.firstName} ${tripOut.lastName}`;
+
     return (
         <div className="max-w-4xl mx-auto mt-10 mb-10 p-6 bg-white shadow-lg rounded-xl">
             <h1 className="text-3xl font-bold text-green-700 mb-4"> 
                 Din resa är nu bokad! 
             </h1>
+
+            <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+                <p>
+                    <strong>Resenär:</strong> {fullName}
+                </p>
+                <p>
+                    <strong>Rullstol:</strong> {" "}
+                    {tripOut.wheelchair ? "Ja - ramp behövs" : "Nej"}
+                </p>
+            </div>
 
             <p className="text-gray-800 mb-4">
                 Tack för att du använder vår tjänst. Vi onsker dig en trevlig resa!
