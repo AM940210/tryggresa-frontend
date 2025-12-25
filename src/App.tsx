@@ -10,6 +10,7 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import MinProfilPage from "./pages/MinProfilpage";
 import MinaBokningarPage from "./pages/MinaBokningarPage";
+import TravelerInfoPage from "./pages/TravelerInfoPage";
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/min-profil" element={<ProtectedRoute><MinProfilPage /></ProtectedRoute>}/>
           <Route path="/mina-bokningar" element={<ProtectedRoute><MinaBokningarPage /></ProtectedRoute>}/>
+          <Route path="/traveler-info" element={<TravelerInfoPage />} />
 
         </Routes>
       </BrowserRouter>

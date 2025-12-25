@@ -41,14 +41,27 @@ export default function BookningConfirmation() {
 
     const { tripOut, tripReturn, message, totalPrice } = data;
 
+    const fullName = [tripOut.firstName, tripOut.lastName]
+        .filter(Boolean)
+        .join(" ");
+
     return (
         <div className="max-w-4xl mx-auto mt-10 mb-10 p-6 bg-white shadow-lg rounded-xl">
             <h1 className="text-3xl font-bold text-green-700 mb-4"> 
                 Din resa är nu bokad! 
             </h1>
 
+            <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+                <p><strong>Resenär:</strong> {fullName}</p>
+
+                <p>
+                    <strong>Rullstol:</strong> {" "}
+                    {tripOut.wheelchair ? "Ja - ramp behövs" : "Nej"}
+                </p>
+            </div>
+
             <p className="text-gray-800 mb-4">
-                Tack för att du använder vår tjänst. Vi onsker dig en trevlig resa!
+                Tack för att du använder vår tjänst. Vi önskar dig en trevlig resa!
             </p>
 
             {/** UTRESA */}
@@ -60,7 +73,6 @@ export default function BookningConfirmation() {
                 <p><strong>Från:</strong> {shortAddress(tripOut.fromAddress)} </p>
                 <p><strong>Till:</strong> {shortAddress(tripOut.toAddress)} </p>
                 <p><strong>Antal personer:</strong> {tripOut.people} </p>
-                <p><strong>Rullstol:</strong> {tripOut.wheelchair ? "Ja" : "Nej"}</p>
                 <p><strong>Typ av resa:</strong> {tripOut.tripCategory} </p>
                 <p><strong>Bokning-ID:</strong> {tripOut.id} </p>
                 <p><strong>Pris:</strong> {tripOut.price} kr</p>
@@ -77,7 +89,6 @@ export default function BookningConfirmation() {
                     <p><strong>Från:</strong> {shortAddress(tripReturn.fromAddress)} </p>
                     <p><strong>Till:</strong> {shortAddress(tripReturn.toAddress)} </p>
                     <p><strong>Antal personer:</strong> {tripReturn.people} </p>
-                    <p><strong>Rullstol:</strong> {tripReturn.wheelchair ? "Ja" : "Nej"}</p>
                     <p><strong>Typ av resa:</strong> {tripReturn.tripCategory} </p>
                     <p><strong>Bokning-ID:</strong> {tripReturn.id} </p>
                     <p><strong>Pris:</strong> {tripReturn.price} kr</p>

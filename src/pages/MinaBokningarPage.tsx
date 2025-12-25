@@ -3,12 +3,15 @@ import { useAuth } from "../context/AuthContext";
 
 type Trip = {
     id: string;
+    firstName: string;
+    lastName: string;
     date: string;
     time: string;
     fromAddress: string;
     toAddress: string;
     people: number;
     wheelchair: boolean;
+    price: number;
 };
 
 export default function MinaBokningarPage() {
@@ -63,6 +66,7 @@ export default function MinaBokningarPage() {
                             key={trip.id}
                             className="border rounded-lg p-4 shadow-sm bg-white"
                         >
+                            <p><strong>Resenär:</strong> {trip.firstName} {trip.lastName}</p>
                             <p><strong>Datum:</strong> {trip.date} </p>
                             <p><strong>Tid:</strong> {trip.time} </p>
                             <p><strong>Från:</strong> {trip.fromAddress} </p>
@@ -72,6 +76,7 @@ export default function MinaBokningarPage() {
                                 <strong>Rullstol:</strong> {" "}
                                 {trip.wheelchair ? "Ja" : "Nej"}
                             </p>
+                            <p><strong>Pris:</strong> {trip.price} kr</p>
                         </li>
                     ))}
                 </ul>
