@@ -21,11 +21,7 @@ export default function TravelerInfoPage() {
   const navigate = useNavigate();
   const { token } = useAuth();
 
-  /**
-   * tripData MÅSTE innehålla:
-   * fromAddress, toAddress, date, time
-   * (returnDate, returnTime om tur & retur)
-   */
+  
   const tripData = location.state;
 
   if (!tripData) {
@@ -40,6 +36,11 @@ export default function TravelerInfoPage() {
       </div>
     );
   }
+
+  const [tripCategory, setTripCategory] = useState<
+    "sjukresa" | "färdtjänst"
+  >(tripData.tripCategory ?? "sjukresa");
+
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -56,12 +57,7 @@ export default function TravelerInfoPage() {
     setIsSubmitting(true);
     const loadingToast = toast.loading("Skickar bokningen...");
 
-    /**
-     * 🚨 VIKTIGT:
-     * Backend kräver:
-     * date, time, fromAddress, toAddress,
-     * people, wheelchair, tripCategory
-     */
+    
     const bookingPayload = {
       fromAddress: tripData.fromAddress,
       toAddress: tripData.toAddress,
@@ -71,7 +67,7 @@ export default function TravelerInfoPage() {
       returnDate: tripData.returnDate,
       returnTime: tripData.returnTime,
 
-      tripCategory: tripData.tripCategory ?? "sjukresa",
+      tripCategory,
 
       firstName,
       lastName,
@@ -118,6 +114,9 @@ export default function TravelerInfoPage() {
   return (
     <div className="max-w-3xl mx-auto mt-10 mb-10 p-6 bg-white shadow-lg rounded-xl">
       <h1 className="text-2xl font-bold mb-6">Resenär Information</h1>
+
+
+
 
       {/* ===== RESEÖVERSIKT ===== */}
       <div className="mb-6 p-4 bg-gray-50 rounded-lg border">
@@ -192,6 +191,33 @@ export default function TravelerInfoPage() {
           <label className="font-medium">
             Rullstol behövs
           </label>
+        </div>
+
+        {/* ===== RESKATEGORI ===== */}
+        <div className="flex gap-4 mb-6">
+          <button
+            type="button"
+            onClick={() => setTripCategory("sjukresa")}
+            className={`flex-1 py-3 rounded-lg font-medium ${
+              tripCategory === "sjukresa"
+                ? "bg-green-600 text-white"
+                : "bg-gray-200"
+            }`}
+          >
+            Sjukresa
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setTripCategory("färdtjänst")}
+            className={`flex-1 py-3 rounded-lg font-medium ${
+              tripCategory === "färdtjänst"
+                ? "bg-purple-600 text-white"
+                : "bg-gray-200"
+            }`}
+          >
+            Färdtjänst
+          </button>
         </div>
       </div>
 
