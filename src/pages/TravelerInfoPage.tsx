@@ -71,7 +71,7 @@ export default function TravelerInfoPage() {
       returnDate: tripData.returnDate,
       returnTime: tripData.returnTime,
 
-      tripCategory: tripData.tripCategory ?? "oneway",
+      tripCategory: tripData.tripCategory ?? "sjukresa",
 
       firstName,
       lastName,
