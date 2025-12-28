@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 type Trip = {
     id: string;
@@ -20,30 +21,60 @@ export default function MinaBokningarPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+    async function fetchTrips() {
+        try {
+            const res = await fetch("http://localhost:4000/trips/my-bookings", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (!res.ok) {
+                throw new Error("Kunde inte hämta bokningar");
+            }
+
+            const data = await res.json();
+            setTrips(data);
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
     useEffect(() => {
-        async function fetchTrips() {
-            try {
-                const res = await fetch("http://localhost:4000/trips/my-bookings", {
+        fetchTrips();
+    }, [token]);
+
+    // AVBOKA RESA
+    async function hanldeCancel(tripId: string) {
+        const confirm = window.confirm("Vill du verklingen avboka resan?");
+        if (!confirm) return;
+
+        try {
+            const res = await fetch(
+                `http://localhost:4000/trips/${tripId}`,
+                {
+                    method: "DELETE",
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
-                });
-
-                if (!res.ok) {
-                    throw new Error("Kunde inte hämta bokningar");
                 }
+            );
 
-                const data = await res.json();
-                setTrips(data);
-            } catch (err: any) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
+            if (!res.ok) {
+                throw new Error("Kunde inte avboka resan");
             }
-        }
 
-        fetchTrips();
-    }, [token]);
+            toast.success("Resan är avbokad");
+
+            // uppdatera listan
+            setTrips((prev) => prev.filter((trip) => trip.id !== tripId));
+        } catch (err) {
+            toast.error("Fel vid avbokning");
+            console.log(err);
+        }
+    }
 
     if (loading) {
         return <p className="text-center mt-10">Laddar bokningar...</p>;
@@ -77,6 +108,14 @@ export default function MinaBokningarPage() {
                                 {trip.wheelchair ? "Ja" : "Nej"}
                             </p>
                             <p><strong>Pris:</strong> {trip.price} kr</p>
+
+                            {/** AVBOKA KNAPP */}
+                            <button
+                                onClick={() => hanldeCancel(trip.id)}
+                                className="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+                            >
+                                Avboka resa
+                            </button>
                         </li>
                     ))}
                 </ul>
