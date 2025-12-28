@@ -16,6 +16,8 @@ export default function SearchForm() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -40,7 +42,7 @@ export default function SearchForm() {
         tripType,
       };
 
-      const res = await fetch("http://localhost:4000/trips/available-times", {
+      const res = await fetch(`${API_URL}/trips/available-times`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
