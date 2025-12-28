@@ -48,6 +48,8 @@ export default function TravelerInfoPage() {
   const [wheelchair, setWheelchair] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const submitBooking = async () => {
     if (!firstName || !lastName) {
       toast.error("Fyll i för- och efternamn");
@@ -78,7 +80,7 @@ export default function TravelerInfoPage() {
     console.log("BOOKING PAYLOAD:", bookingPayload);
 
     try {
-      const res = await fetch("http://localhost:4000/trips", {
+      const res = await fetch(`${API_URL}/trips`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
