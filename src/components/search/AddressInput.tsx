@@ -17,15 +17,36 @@ export default function AddressInput({
   label,
   onSelect,
 }: AddressInputProps) {
+
+  // 🔐 VIKTIGT: vänta på Google Maps
+  const isGoogleLoaded =
+    typeof window !== "undefined" &&
+    !!window.google?.maps?.places;
+
+  if (!isGoogleLoaded) {
+    return (
+      <div className="w-full">
+        <label className="block text-sm font-medium mb-1">
+          {label}
+        </label>
+        <input
+          disabled
+          placeholder="Laddar adressökning…"
+          className="w-full border rounded-lg p-2 pl-9 bg-gray-100"
+        />
+      </div>
+    );
+  }
+
   const {
     ready,
     value,
     setValue,
     suggestions: { status, data },
     clearSuggestions,
-  } = usePlacesAutocomplete();
-
-  console.log("Places ready:", ready);
+  } = usePlacesAutocomplete({
+    debounce: 300,
+  });
 
   const handleSelect = async (address: string) => {
     setValue(address, false);
@@ -51,7 +72,7 @@ export default function AddressInput({
 
         <input
           value={value}
-          disabled={false}
+          disabled={!ready}
           onChange={(e) => setValue(e.target.value)}
           placeholder="Ange adress..."
           className="w-full border rounded-lg p-2 pl-9"
