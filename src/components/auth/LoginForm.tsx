@@ -13,6 +13,9 @@ export default function LoginForm() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
 
+    const API_URL = import.meta.env.VITE_API_URL;
+
+
     const handleSubmit = async (
         e: React.FormEvent<HTMLFormElement>
         ) => {
@@ -22,7 +25,7 @@ export default function LoginForm() {
 
         try {
             // TODO: koppla till backend
-            const res = await fetch("http://localhost:4000/api/auth/login", {
+            const res = await fetch(`${API_URL}/api/auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
