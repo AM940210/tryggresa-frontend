@@ -20,14 +20,17 @@ export default function MinaBokningarPage() {
     const [trips, setTrips] = useState<Trip[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const API_URL = import.meta.env.VITE_API_URL;
+
 
     async function fetchTrips() {
         try {
-            const res = await fetch("http://localhost:4000/trips/my-bookings", {
+            const res = await fetch(`${API_URL}/trips/my-bookings`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
+
 
             if (!res.ok) {
                 throw new Error("Kunde inte hämta bokningar");
@@ -52,15 +55,13 @@ export default function MinaBokningarPage() {
         if (!confirm) return;
 
         try {
-            const res = await fetch(
-                `http://localhost:4000/trips/${tripId}`,
-                {
-                    method: "DELETE",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+            const res = await fetch(`${API_URL}/trips/${tripId}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
 
             if (!res.ok) {
                 throw new Error("Kunde inte avboka resan");
