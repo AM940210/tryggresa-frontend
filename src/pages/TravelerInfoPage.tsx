@@ -1,7 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useAuth } from "../context/AuthContext";
 
 /** ===== Hjälpfunktion ===== */
 function shortAddress(full?: string) {
@@ -19,7 +18,6 @@ function shortAddress(full?: string) {
 export default function TravelerInfoPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { token } = useAuth();
 
   
   const tripData = location.state;
@@ -84,7 +82,6 @@ export default function TravelerInfoPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(bookingPayload),
       });
