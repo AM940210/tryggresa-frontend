@@ -1,73 +1,43 @@
-# React + TypeScript + Vite
+# Tryggresa
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Tryggresa är en webbaserad bokningsapplikation för trygg och tillgänglig transport. Applikationen riktar sig främst till äldre personner och personer med särskilda behov, exempelvis rullstolsburna, applikationen kan änvända av anhöriga och personal.
 
-Currently, two official plugins are available:
+## Live-demo
+Frontend: https://tryggresa-frontend.vercel.app  
+Backend API: https://tryggresa-backend.onrender.com
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
+### Frontend
+- React
+- TypeScript
+- React Router
+- Tailwind CSS
+- Context API (auth state)
 
-## React Compiler
+### Backend
+- Nodejs
+- Express
+- Prisma ORM
+- MongoDB Atlas
+- JWT (JSON Web Tokens)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Funktioner 
+- Sök och boka resa (enkel eller tur & retur)
+- Välje tillgängliga tider
+- Skapa bokning utan inlogning
+- Inloggning och registering
+- Visa mina bokningar (skyddad sida)
+- Avboka resa
+- Visa användarprofil
 
-## Expanding the ESLint configuration
+## Tillgänglighet
+- Responsive design för mobil och desktop
+- Semantisk HTML
+- Tydliga formulärlabels
+- Fokus på enkel navigation och tydlig feedback
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Installation (lokalt)
+````bash
+git clone <repo-url>
+npm install
+npm run dev
