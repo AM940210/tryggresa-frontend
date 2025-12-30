@@ -54,7 +54,8 @@ export default function Header() {
               </>
             )}
             
-            <li 
+            <li
+              onClick={() => navigate("/kundservice")} 
               className="hover:text-blue-600 cursor-pointer"
             >
               Kundservice
@@ -156,7 +157,10 @@ export default function Header() {
             
             
 
-            <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer">
+            <li
+              onClick={() => navigate("/kundservice")}
+              className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 cursor-pointer"
+            >
               <Headphones size={32} /> Kundservice
             </li>
             <li className="flex items-center gap-10 pl-6 bg-gray-200 p-4 hover:text-blue-600 mt-2 cursor-pointer">

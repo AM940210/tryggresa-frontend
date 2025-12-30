@@ -12,6 +12,7 @@ import MinProfilPage from "./pages/MinProfilpage";
 import MinaBokningarPage from "./pages/MinaBokningarPage";
 import TravelerInfoPage from "./pages/TravelerInfoPage";
 import Footer from "./components/layout/Footer";
+import KundservicePage from "./pages/KundservicePage";
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/min-profil" element={<ProtectedRoute><MinProfilPage /></ProtectedRoute>}/>
           <Route path="/mina-bokningar" element={<ProtectedRoute><MinaBokningarPage /></ProtectedRoute>}/>
           <Route path="/traveler-info" element={<TravelerInfoPage />} />
+          <Route path="/kundservice" element={<KundservicePage />} />
         </Routes>
 
         <Footer />
