@@ -51,7 +51,7 @@ export default function SearchForm() {
             date,
             fromAddress,
             toAddress,
-            tripType, 
+            tripType,
         }),
       });
 

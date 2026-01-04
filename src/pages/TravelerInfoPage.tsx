@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
 
 /** ===== Hjälpfunktion ===== */
 function shortAddress(full?: string) {
@@ -18,6 +19,7 @@ function shortAddress(full?: string) {
 export default function TravelerInfoPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { token } = useAuth();
 
   
   const tripData = location.state;
@@ -35,9 +37,10 @@ export default function TravelerInfoPage() {
     );
   }
 
+  // ================== STATE ================
   const [tripCategory, setTripCategory] = useState<
     "sjukresa" | "färdtjänst"
-  >(tripData.tripCategory ?? "sjukresa");
+  >("sjukresa");
 
 
   const [firstName, setFirstName] = useState("");
@@ -48,9 +51,15 @@ export default function TravelerInfoPage() {
 
   const API_URL = import.meta.env.VITE_API_URL;
 
+  // ====== SUBMIT ======
   const submitBooking = async () => {
     if (!firstName || !lastName) {
       toast.error("Fyll i för- och efternamn");
+      return;
+    }
+
+    if (!token) {
+      toast.error("Du måste vara inloggad");
       return;
     }
 
@@ -82,6 +91,7 @@ export default function TravelerInfoPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(bookingPayload),
       });
