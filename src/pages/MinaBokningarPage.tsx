@@ -3,124 +3,143 @@ import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
 
 type Trip = {
-    id: string;
-    firstName: string;
-    lastName: string;
-    date: string;
-    time: string;
-    fromAddress: string;
-    toAddress: string;
-    people: number;
-    wheelchair: boolean;
-    price: number;
+  id: string;
+  firstName: string;
+  lastName: string;
+  date: string;
+  time: string;
+  fromAddress: string;
+  toAddress: string;
+  people: number;
+  wheelchair: boolean;
+  price: number;
 };
 
 export default function MinaBokningarPage() {
-    const { token } = useAuth();
-    const [trips, setTrips] = useState<Trip[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
-    const API_URL = import.meta.env.VITE_API_URL;
+  const { token } = useAuth();
+  const [trips, setTrips] = useState<Trip[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
+  const API_URL = import.meta.env.VITE_API_URL;
 
-    async function fetchTrips() {
-        try {
-            const res = await fetch(`${API_URL}/trips/my-bookings`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+  // ================= HÄMTA BOKNINGAR =================
+  useEffect(() => {
+    if (!token) {
+      setError("Du är inte inloggad");
+      setLoading(false);
+      return;
+    }
 
+    const fetchTrips = async () => {
+      try {
+        const res = await fetch(`${API_URL}/trips/my-bookings`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-            if (!res.ok) {
-                throw new Error("Kunde inte hämta bokningar");
-            }
-
-            const data = await res.json();
-            setTrips(data);
-        } catch (err: any) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
+        if (!res.ok) {
+          throw new Error("Kunde inte hämta bokningar");
         }
+
+        const data = await res.json();
+        setTrips(data);
+      } catch (err: any) {
+        setError(err.message || "Fel vid hämtning");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTrips();
+  }, [token, API_URL]);
+
+  // ================= AVBOKA =================
+  const handleCancel = async (tripId: string) => {
+    const confirm = window.confirm("Vill du verkligen avboka resan?");
+    if (!confirm) return;
+
+    try {
+      const res = await fetch(`${API_URL}/trips/${tripId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error("Kunde inte avboka resan");
+      }
+
+      toast.success("Resan är avbokad");
+
+      // Uppdatera listan lokalt
+      setTrips((prev) => prev.filter((trip) => trip.id !== tripId));
+    } catch (err) {
+      toast.error("Fel vid avbokning");
+      console.error(err);
     }
+  };
 
-    useEffect(() => {
-        fetchTrips();
-    }, [token]);
+  // ================= UI =================
+  if (loading) {
+    return <p className="text-center mt-10">Laddar bokningar...</p>;
+  }
 
-    // AVBOKA RESA
-    async function hanldeCancel(tripId: string) {
-        const confirm = window.confirm("Vill du verklingen avboka resan?");
-        if (!confirm) return;
+  if (error) {
+    return <p className="text-center mt-10 text-red-500">{error}</p>;
+  }
 
-        try {
-            const res = await fetch(`${API_URL}/trips/${tripId}`, {
-                method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+  return (
+    <div className="max-w-4xl mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-6">Mina bokningar</h1>
 
+      {trips.length === 0 ? (
+        <p>Du har inga bokningar ännu.</p>
+      ) : (
+        <ul className="space-y-4">
+          {trips.map((trip) => (
+            <li
+              key={trip.id}
+              className="border rounded-lg p-4 shadow-sm bg-white"
+            >
+              <p>
+                <strong>Resenär:</strong> {trip.firstName} {trip.lastName}
+              </p>
+              <p>
+                <strong>Datum:</strong> {trip.date}
+              </p>
+              <p>
+                <strong>Tid:</strong> {trip.time}
+              </p>
+              <p>
+                <strong>Från:</strong> {trip.fromAddress}
+              </p>
+              <p>
+                <strong>Till:</strong> {trip.toAddress}
+              </p>
+              <p>
+                <strong>Personer:</strong> {trip.people}
+              </p>
+              <p>
+                <strong>Rullstol:</strong>{" "}
+                {trip.wheelchair ? "Ja" : "Nej"}
+              </p>
+              <p>
+                <strong>Pris:</strong> {trip.price} kr
+              </p>
 
-            if (!res.ok) {
-                throw new Error("Kunde inte avboka resan");
-            }
-
-            toast.success("Resan är avbokad");
-
-            // uppdatera listan
-            setTrips((prev) => prev.filter((trip) => trip.id !== tripId));
-        } catch (err) {
-            toast.error("Fel vid avbokning");
-            console.log(err);
-        }
-    }
-
-    if (loading) {
-        return <p className="text-center mt-10">Laddar bokningar...</p>;
-    }
-
-    if (error) {
-        return <p className="text-center text-red-500 mt-10">{error}</p>;
-    }
-
-    return (
-        <div className="max-w-4xl mx-auto p-6">
-            <h1 className="text-2xl font-bold mb-6">Mina bokningar</h1>
-
-            {trips.length === 0 ? (
-                <p>Du har inga bokningar ännu.</p>
-            ) : (
-                <ul className="space-y-4">
-                    {trips.map((trip) => (
-                        <li
-                            key={trip.id}
-                            className="border rounded-lg p-4 shadow-sm bg-white"
-                        >
-                            <p><strong>Resenär:</strong> {trip.firstName} {trip.lastName}</p>
-                            <p><strong>Datum:</strong> {trip.date} </p>
-                            <p><strong>Tid:</strong> {trip.time} </p>
-                            <p><strong>Från:</strong> {trip.fromAddress} </p>
-                            <p><strong>Till:</strong> {trip.toAddress} </p>
-                            <p><strong>Personer:</strong> {trip.people} </p>
-                            <p>
-                                <strong>Rullstol:</strong> {" "}
-                                {trip.wheelchair ? "Ja" : "Nej"}
-                            </p>
-                            <p><strong>Pris:</strong> {trip.price} kr</p>
-
-                            {/** AVBOKA KNAPP */}
-                            <button
-                                onClick={() => hanldeCancel(trip.id)}
-                                className="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
-                            >
-                                Avboka resa
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
-    )
+              <button
+                onClick={() => handleCancel(trip.id)}
+                className="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+              >
+                Avboka resa
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 }
