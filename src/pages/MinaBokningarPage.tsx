@@ -17,6 +17,11 @@ type Trip = {
 
 export default function MinaBokningarPage() {
   const { token } = useAuth();
+
+  // LOGGA TOKEN
+  console.log("FRONTEND-TOKEN:", token);
+
+
   const [trips, setTrips] = useState<Trip[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");

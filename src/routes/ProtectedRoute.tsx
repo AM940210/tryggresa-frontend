@@ -7,7 +7,11 @@ interface Props {
 }
 
 export default function ProtectedRoute({ children }: Props) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return <p className="text-center mt-10">Laddar...</p>
+  }
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
